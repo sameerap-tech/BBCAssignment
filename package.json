@@ -1,0 +1,25 @@
+{
+    "name": "cypress-cucumber-example",
+    "version": "1.0.0",
+    "description": "Sample implementation of Cypress using Cucumber",
+    "main": "index.js",
+    "keywords": [
+        "cypress",
+        "cucumber",
+        "testing"
+    ],    
+    "cypress-cucumber-preprocessor": {
+        "nonGlobalStepDefinitions": false,
+        "stepDefinitions": "cypress/e2e/step_definitions/",
+        "cucumberJson": {
+            "generate": true,
+            "outputFolder": "cypress/cucumber-json",
+            "filePrefix": "",
+            "fileSuffix": ".cucumber"
+        }
+    },
+    "devDependencies": {
+        "cypress": "^13.7.2",
+        "cypress-cucumber-preprocessor": "^4.3.1"
+    }
+}
