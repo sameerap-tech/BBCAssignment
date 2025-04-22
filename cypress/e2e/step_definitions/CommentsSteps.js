@@ -1,8 +1,5 @@
-import {Given, When, Then, Before} from "cypress-cucumber-preprocessor/steps";
+import {Given, When, Then} from "cypress-cucumber-preprocessor/steps";
 import userData from '../../fixtures/example.json'
-
-const id = Math.random().toString().substr(2, 6);
-const testname = `testname_${id}`;
 
 Given('A valid user has signed in to comments module', function() {
     cy.visit('https://www.test.bbc.co.uk/sport/articles/cj2ne09x2j0o?mode=testData');
@@ -17,14 +14,21 @@ When('user clicks on the view comments button', function() {
     cy.get('button:contains("View comments")').click();
 });
 
+And('the user sorts the comments to latest order', function() {
+    cy.get('select[data-testid="select"]').select(0);
+});
+
 Then('user can post a {string} on the article', (actionType) => {
+    const id = Cypress._.random(0, 1e6);        //Random number generator, number between 0 to 10^6
+    const commentText = `testname_${id}`;
+    const replyText = `testreplyname_${id}`;
     switch(actionType) {
         case "comment":
-            cy.get('textarea[placeholder="Add your comment..."]').type(testname);
+            cy.get('textarea[placeholder="Add your comment..."]').type(commentText);
             break;
 
         case "reply":
-            cy.get('textarea[placeholder="Add your comment..."]').eq(1).type('reply');
+            cy.get('textarea[placeholder="Add your comment..."]').eq(1).type(replyText);
             break;
 
         default:
@@ -39,12 +43,6 @@ When('user clicks on the reply button', function() {
     cy.get('.ssrcss-1rgelzq-ReplyButtonText').first().click();
 });
 
-And('user posts a reply on the article', function() {
-    cy.get('textarea[placeholder="Add your comment..."]').eq(1).type('reply');
-    cy.get('button[data-testid="post-comment"]').click();
-    cy.get('.ssrcss-12cqr8y-SuccessPanel').invoke('text').should('eq', 'Thanks, your comment has been posted.');
-});
-
 When('user clicks on the reaction button', function() {
     cy.get('button[data-testid="positive-reaction"]').first().click();
     })
@@ -53,7 +51,7 @@ Then('user can see his reaction', function() {
     cy.get('button[data-testid="positive-reaction"]').first().should('have.attr', 'aria-label', 'You have liked this comment. Number of likes: 1');
 });
 
-Given('A unsigned user accesses the comments article', function() {
+Given('An unsigned in user accesses the comments article', function() {
     cy.visit('https://www.test.bbc.co.uk/sport/articles/cj2ne09x2j0o?mode=testData');
 });
 
