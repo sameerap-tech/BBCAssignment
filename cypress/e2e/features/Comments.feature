@@ -24,4 +24,4 @@ Feature: Automate test scenarios for Comments service
     Scenario: Verify that unsigned in user cannot post comment on the article
         Given An unsigned in user accesses the comments article
         When user clicks on the view comments button
-        Then user can see the login button
+        Then user can see the sign in message and post button is not available

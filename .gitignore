@@ -1,4 +1,8 @@
-cypress/cucumber-json/
+cypress/cucumber-json
+cypress/screenshots
+cypress/reports
+cypress/results
+cypress/videos
 
 # Logs
 logs
