@@ -20,7 +20,7 @@ And('the user sorts the comments to latest order', function() {
 
 Then('user can post a {string} on the article', (actionType) => {
     const id = Cypress._.random(0, 1e6);        //Random number generator, number between 0 to 10^6
-    const commentText = `testname_${id}`;
+    const commentText = `testcommentname_${id}`;
     const replyText = `testreplyname_${id}`;
     switch(actionType) {
         case "comment":
@@ -36,11 +36,11 @@ Then('user can post a {string} on the article', (actionType) => {
             return;
     }
     cy.get('button[data-testid="post-comment"]').click();
-    cy.get('.ssrcss-12cqr8y-SuccessPanel').invoke('text').should('eq', 'Thanks, your comment has been posted.');
+    cy.get('div[data-testid="comment-success"]').invoke('text').should('eq', 'Thanks, your comment has been posted.');
 });
 
 When('user clicks on the reply button', function() {
-    cy.get('.ssrcss-1rgelzq-ReplyButtonText').first().click();
+    cy.get('button[data-testid="comment-reply-button"]').first().click();
 });
 
 When('user clicks on the reaction button', function() {
@@ -55,6 +55,7 @@ Given('An unsigned in user accesses the comments article', function() {
     cy.visit('https://www.test.bbc.co.uk/sport/articles/cj2ne09x2j0o?mode=testData');
 });
 
-Then('user can see the login button', function() {
+Then('user can see the sign in message and post button is not available', function() {
     cy.get('.ssrcss-8ukms6-Greeting').invoke('text').should('eq', 'Sign in to comment, reply and react');
+    cy.get('[placeholder="Add your comment..."]').should('not.to.exist');
 });
